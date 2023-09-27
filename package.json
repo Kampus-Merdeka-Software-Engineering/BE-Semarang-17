@@ -1,0 +1,15 @@
+{
+  "name": "back-end-capstone-project-section-semarang-group-17",
+  "version": "1.0.0",
+  "description": "test",
+  "main": "test.js",
+  "scripts": {
+    "dev": "node index.js"
+  },
+  "author": "Angga",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.18.2",
+    "nodemon": "^3.0.1"
+  }
+}
