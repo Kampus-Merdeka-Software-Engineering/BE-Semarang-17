@@ -20,6 +20,7 @@ app.get('/api/cek-resi',loggerMiddleware, (req, res) => {
         data: 
         [
         {
+            no_resi: 2909202301,
             layanan : "gercep",
             asal: "bali",
             tujuan: "jakarta",
@@ -33,19 +34,20 @@ app.get('/api/cek-resi',loggerMiddleware, (req, res) => {
 });
 
 //create handling http post for api customers
-app.post('/api/pengiriman',loggerMiddleware, (req, res) => {
-    const { layanan, asal, tujuan,pengirim, penerima,tanggal } = req.body;
+app.post('/api/pengiriman/:no_resi',loggerMiddleware, (req, res) => {
+    const { no_resi,layanan, asal, tujuan,pengirim, penerima,tanggal } = req.body;
     //res.send(`layanan anda adalah ${layanan} asal anda adalah ${asal} dan tujuan anda adalah ${tujuan}, nama pengirim atas nama ${pengirim}, dan penerima atas nama ${penerima}, dan tanggal kirim adalah ${tanggal}`)
     res.json({
-        massaged: "create data customer successfully",
+        massaged: "create data pengiriman success",
         data :
         {
+            no_resi: no_resi,
             layanan : layanan,
             asal: asal,
             tujuan: tujuan,
             pengirim: pengirim,
             penerima: penerima,
-            tanggal: tanggal_pengiriman
+            tanggal: tanggal
         }
     })
 });
