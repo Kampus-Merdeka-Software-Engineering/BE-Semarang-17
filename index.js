@@ -1,12 +1,14 @@
 // import library express js
 const express = require('express');
 const app = express(); // call function express
-const port = 3000; // define port varaibel
 const pengirimanRouter = require('./Routes/pengirimanRoutes.js');
+const cors = require('cors');
 
 // import bodyparser
 const bodyParser = require('body-parser');
 app.use(bodyParser.json());
+
+app.use(cors());
 
 // import database
 const db = require('./config/Database.js');
