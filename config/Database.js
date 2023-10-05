@@ -1,7 +1,9 @@
 const Sequelize = require("sequelize");
-const db = new Sequelize("si-gercep", "root", "", {
-  host: "localhost",
+const db = new Sequelize(process.env.MYSQLDATABASE, process.env.MYSQLUSER, process.env.MYSQLPASSWORD, {
+  host: process.env.MYSQLHOST,
   dialect: "mysql",
+  port:process.env.MYSQLPORT,
+
 });
 
 db.authenticate()
