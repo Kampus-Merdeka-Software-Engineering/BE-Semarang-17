@@ -1,20 +1,55 @@
-const Sequelize = require('sequelize'); // import sequence
-// const datatypes = require('datatypes'); // import datatype
-const db = require('../config/Database.js'); // import db
+const Sequelize = require('sequelize');
+const db = require('../config/Database.js');
 
-//create data pengiriman
-const createpengiriman = (item) => {
-    return new Promise((resolve, reject) => {
-      db.query('INSERT INTO pengiriman (no_resi, layanan, asal, tujuan, pengirim, penerima, tanggal) VALUES (?, ?, ?, ?, ?, ?, ?)',
-        [item.no_resi, item.layanan, item.asal, item.tujuan, item.pengirim, item.penerima, item.tanggal],
-        (err, results) => {
-          if (err) {
-            reject(err);
-          } else {
-            resolve(results);
-          }
-        });
+const Pengiriman = db.define('pengirimans', {
+  id: {
+    type: Sequelize.INTEGER,
+    primaryKey: true,
+    autoIncrement: true,
+  },
+  no_resi: {
+    type: Sequelize.STRING,
+    unique: true, // Pastikan nomor resi unik
+  },
+  layanan: Sequelize.STRING,
+  asal: Sequelize.STRING,
+  tujuan: Sequelize.STRING,
+  pengirim: Sequelize.STRING,
+  penerima: Sequelize.STRING,
+  tanggal: Sequelize.DATE,
+});
+
+// Sync the model with the database (assuming 'db' is your Sequelize instance)
+db.sync();
+
+const createpengiriman = async (item) => {
+  // Generate nomor resi unik (contoh: menggunakan timestamp)
+  const timestamp = Date.now();
+  const no_resi = `${timestamp}`;
+
+  try {
+    // Cek apakah nomor resi sudah ada dalam database, jika iya, generate ulang
+    const existingPengiriman = await Pengiriman.findOne({
+      where: {
+        no_resi,
+      },
     });
-  };
-  
-module.exports = { createpengiriman };
+    
+    if (existingPengiriman) {
+      // Generate nomor resi ulang jika sudah ada
+      return createpengiriman(item);
+    }
+    
+    // Jika nomor resi unik, simpan pengiriman ke database
+    const createdItem = await Pengiriman.create({
+      ...item,
+      no_resi,
+    });
+    
+    return createdItem.toJSON();
+  } catch (error) {
+    throw error;
+  }
+};
+
+module.exports = { createpengiriman, Pengiriman };
