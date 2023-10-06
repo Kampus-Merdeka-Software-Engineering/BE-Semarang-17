@@ -16,7 +16,7 @@ const Pengiriman = db.define('pengirimans', {
   tujuan: Sequelize.STRING,
   pengirim: Sequelize.STRING,
   penerima: Sequelize.STRING,
-  tanggal: Sequelize.DATE,
+  tanggal: Sequelize.STRING,
 });
 
 // Sync the model with the database (assuming 'db' is your Sequelize instance)
